@@ -1,0 +1,5 @@
+description:
+  . : "clean floor"
+  * : "dirty floor"
+  w : "wall"
+  
