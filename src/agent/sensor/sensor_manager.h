@@ -45,11 +45,14 @@ class SensorManager
             events.pop();
             for(Sensor* sensor : sensors)
             {
-                auto e = sensor->sense(&event);
+                try
+                {
+                    auto e = sensor->sense(&event);
+                
+                    res.insert({e.label, e});
+                } catch(...) {}
             
-                res.insert({e.label, e});
             }
-
 
             return res;
         }

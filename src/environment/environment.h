@@ -150,13 +150,17 @@ class Environment
         {
             sleep(1);
             
+            point real_position = agents[agent_name].position + relative_position;
+
+            std::cout << "Cleaning at " << real_position.y << ' ' << real_position.x << std::endl;
+
             if(relative_position == (point){0,0})
             {
-                agents[agent_name].floor_underneath = Floor::clean;
-
-                agents[agent_name].ptr->get_sensor_manager()->add_event({
+                agents[agent_name].floor_underneath = Floor::clean; 
+ 
+                agents[agent_name].ptr->get_sensor_manager()->add_event({ 
                                             agents[agent_name].floor_underneath, 
-                                            {0,0}
+                                            {0,0} 
                                         }
                                     );
 
@@ -165,7 +169,6 @@ class Environment
                 return;
             }
 
-            point real_position = agents[agent_name].position + relative_position;
             
             // Floor floor;
             // point delta_pos;

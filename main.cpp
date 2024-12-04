@@ -22,10 +22,8 @@ int main()
     );
 
     Agent * a = new DummyAgent(&env,"rogerio");
-    Agent * b = new DummyAgent(&env,"rogerio2");
 
     env.add_agent(a, {0,0});
-    env.add_agent(b, {3,3});
 
     a->run();
 

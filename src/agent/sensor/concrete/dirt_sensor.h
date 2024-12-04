@@ -9,6 +9,10 @@ class DirtSensor : public Sensor
 
         percept sense(sensor_input * i)
         {
+
+            if (i->floor != Floor::dirty and i->floor != Floor::clean)
+                throw "not suitable";
+
             return {get_name(), (i->floor == Floor::dirty ? 1 : 0)};
         }
 

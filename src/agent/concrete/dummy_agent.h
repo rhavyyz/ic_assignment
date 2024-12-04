@@ -26,8 +26,10 @@ class DummyAgent : public Agent
         void reason(std::map<std::string, percept> perceptions)
         {
 
-            std::cout << "my_percerpts" <<perceptions.size() << std::endl; 
+            std::cout << "my_percerpts " <<perceptions.size() << std::endl; 
 
+            if (perceptions.size() == 0)
+                return;
 
 
             if(perceptions["dirt"].code == 1)
