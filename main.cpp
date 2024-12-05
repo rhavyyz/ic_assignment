@@ -4,6 +4,7 @@
 #include "agent.h"
 #include "environment.h"
 #include "concrete/dummy_agent.h"
+#include "concrete/smart_agent.h"
 
 using std::cout, std::endl;
 
@@ -21,7 +22,7 @@ int main()
         }, true
     );
 
-    Agent * a = new DummyAgent(&env,"rogerio");
+    Agent * a = new SmartAgent(&env,"rogerio");
 
     env.add_agent(a, {0,0});
 
