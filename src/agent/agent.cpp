@@ -1,16 +1,12 @@
 #include "agent.h"
 #include <thread>
 #include "types.h"
+#include <iostream>
 
 void monitor(Agent * agent)
 {
-    while (true)
-    {
-        std::cout << "Loop" << std::endl;
+    while (!agent->get_cleaned_all())
         agent->reason(agent->get_sensor_manager()->consume_event());
-    }
-
-    delete agent;
 }
 
 Agent::Agent(Environment * env, std::string name)
@@ -20,23 +16,17 @@ Agent::Agent(Environment * env, std::string name)
 
 void Agent::run()
 {
-    this->t = new std::thread(monitor, this);    
+    this->t = new std::thread(monitor, this);        
 }
 
 void Agent::join()
 {
     if(t->joinable())
     {
-
-
-        std::cout << "ficou joining" << std::endl;
         t->join();
-        std::cout << "joinou" << std::endl;
-
-        return;
     }
-
-    throw "It is not possible to join 2 times the same agent";
+    else
+        throw "It is not possible to join 2 times the same agent";
 }
 
 Agent::~Agent()

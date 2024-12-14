@@ -26,8 +26,6 @@ class DummyAgent : public Agent
         void reason(std::map<std::string, percept> perceptions)
         {
 
-            std::cout << "my_percerpts " <<perceptions.size() << std::endl; 
-
             if (perceptions.size() == 0)
                 return;
 
@@ -35,7 +33,6 @@ class DummyAgent : public Agent
             if(perceptions["dirt"].code == 1)
             {
                 actuaors["clean"]->act(NULL);
-                std::cout << "returned here \n";
                 return;
             }
 
@@ -49,12 +46,10 @@ class DummyAgent : public Agent
                 };
 
 
-            std::cout << "before " << movement << std::endl;
             instruction ins = {
                 moves[movement]
             };
 
-            std::cout << "after" << std::endl;
 
             actuaors["move"]->act(&ins);
         }

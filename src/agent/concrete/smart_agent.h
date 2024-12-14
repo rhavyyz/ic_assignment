@@ -6,10 +6,14 @@
 #include "concrete/movement_actuator.h"
 #include "concrete/collision_sensor.h"
 #include <cstdlib>
+#include <algorithm>
+
+#include "logger.h"
 
 class SmartAgent : public Agent
 {
     private:
+
         std::vector<point> movements = {
             {1, 0},
             {0, 1},
@@ -22,10 +26,10 @@ class SmartAgent : public Agent
 
         std::vector<point> path;
 
-        enum AFloor{
-            passed = 0,
-            unpassable = 1,
-            unknown = 2
+        enum class AFloor : char{
+            passed = 'p',
+            unpassable = '#',
+            unknown = '?'
         };
 
         void set_unknown()
@@ -41,6 +45,47 @@ class SmartAgent : public Agent
         }
 
         std::map<int, std::map<int, AFloor>> grid;
+
+        void print_model()
+        {
+            if(grid.size() == 0)
+                return;
+
+            std::string content = "";
+
+            content += "model of " + this->get_name() + "\n\n";
+
+
+            int small_x = 1e7, small_y = 1e7, big_x = -1e7, big_y = -1e7;
+
+            for(auto [y, child] : grid)
+            {
+                big_y = std::max(big_y, y);
+                small_y = std::min(small_y, y);
+
+                for(auto [x, value] : child)
+                {
+                    big_x = std::max(big_x, x);
+                    small_x = std::min(small_x, x);
+                }
+            }
+
+            for(int y = small_y; y <= big_y; y++)
+            {
+                for(int x = small_x; x <= big_x; x++)
+                {
+                    if(grid[y].count(x))
+                        content += (char)grid[y][x]; 
+                    else
+                        content += ' ';
+                }
+
+                content += '\n';
+            }
+
+            Logger::save("agent_intern_state", content + "\n\n-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n\n", true);
+
+        }
 
         std::vector<point>gen_route()
         {
@@ -60,20 +105,22 @@ class SmartAgent : public Agent
                 auto [pos, from] = order.front();
                 order.pop();
 
-                if(visited.count(pos.y) && visited[pos.y].count(pos.x) || grid[pos.y][pos.x] == AFloor::unpassable)
+                if((visited.count(pos.y) && visited[pos.y].count(pos.x)) || grid[pos.y][pos.x] == AFloor::unpassable)
+                {
                     continue;
+                }
 
                 visited[pos.y][pos.x] = from;
                 
                 if(grid[pos.y][pos.x] == AFloor::unknown)
                 {
-
                     ans = new point();
                     *ans = pos; 
+                    break;
                 }
 
                 for (auto move : movements)
-                    order.push({(current_pos + move), move});
+                    order.push({(pos + move), move});
             
             }
 
@@ -123,9 +170,9 @@ class SmartAgent : public Agent
 
         void reason(std::map<std::string, percept> perceptions)
         {
-            int tzr = 0;
-            std::cout << ++tzr << std::endl;
+            print_model();
 
+            int tzr = 0;
 
             if(perceptions["col"].code)
             {
@@ -143,33 +190,29 @@ class SmartAgent : public Agent
                 return;
             }
 
-            std::cout << ++tzr << std::endl;
 
             if(path.size() == 0)
             {
-                std::cout <<"gen" << ++tzr << std::endl;
 
                 path = gen_route();
                 if(path.size() == 0)
-                    std::terminate();
+                {
+                    this->cleaned_all = true;
+                    return;
+                }
 
-                std::cout <<"gen" << ++tzr << std::endl;
                 
             }
-            std::cout << ++tzr << std::endl;
 
             auto m = path.back();
             path.pop_back();
-            std::cout << ++tzr << std::endl;
 
             instruction i = {m};
             actuaors["move"]->act(&i);
-            std::cout << ++tzr << std::endl;
 
             current_pos = current_pos + m;
 
             last_move = m;
-            std::cout << ++tzr << std::endl;
 
         }
 

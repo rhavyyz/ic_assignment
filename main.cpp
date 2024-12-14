@@ -5,22 +5,25 @@
 #include "environment.h"
 #include "concrete/dummy_agent.h"
 #include "concrete/smart_agent.h"
+#include "concrete/concrete_environment.h"
+#include "concrete/metrics/move_cleaned_metric.h"
+
 
 using std::cout, std::endl;
 
 int main()
 {
-    Environment env(
+    MoveCleanedMetric env = new MoveCleanedMetric(new ConcreteEnvironment(
         {
             {Floor::dirty,Floor::dirty,Floor::dirty,Floor::dirty,Floor::dirty,Floor::dirty},
+            {Floor::dirty,Floor::wall,Floor::wall,Floor::wall,Floor::wall,Floor::wall},
             {Floor::dirty,Floor::dirty,Floor::dirty,Floor::dirty,Floor::dirty,Floor::dirty},
             {Floor::dirty,Floor::dirty,Floor::dirty,Floor::dirty,Floor::dirty,Floor::dirty},
             {Floor::dirty,Floor::dirty,Floor::dirty,Floor::dirty,Floor::dirty,Floor::dirty},
-            {Floor::dirty,Floor::dirty,Floor::dirty,Floor::dirty,Floor::dirty,Floor::dirty},
-            {Floor::dirty,Floor::dirty,Floor::dirty,Floor::dirty,Floor::dirty,Floor::dirty},
+            {Floor::dirty,Floor::dirty,Floor::dirty,Floor::wall,Floor::dirty,Floor::dirty},
             {Floor::dirty,Floor::dirty,Floor::dirty,Floor::dirty,Floor::dirty,Floor::dirty}
         }, true
-    );
+    ));
 
     Agent * a = new SmartAgent(&env,"rogerio");
 
@@ -28,7 +31,6 @@ int main()
 
     a->run();
 
-    cout << "Merda bosta" << endl;
     a->join();
 
     return 0;

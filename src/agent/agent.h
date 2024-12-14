@@ -20,12 +20,15 @@ class Agent
         std::map<std::string, Actuator*> actuaors;
         SensorManager * sensors;
         std::string name;
-
+        bool cleaned_all = false;
+    
     public:
         void virtual reason(std::map<std::string, percept> perceptions) = 0;
         void run();
         void wait();
         void join();
+
+        bool get_cleaned_all() { return cleaned_all; }
 
         ~Agent();
         Agent(Environment * env, std::string name);

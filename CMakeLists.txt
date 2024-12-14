@@ -29,12 +29,16 @@ set(floor_utils
   ${PROJECT_SOURCE_DIR}/src/floor_utils/
 )
 
+set(logging
+  ${PROJECT_SOURCE_DIR}/src/logging/
+)
 
 add_executable(app main.cpp 
                     src/agent/agent.cpp                
 )
 
 target_include_directories(app PUBLIC ${floor_utils})
+target_include_directories(app PUBLIC ${logging})
 target_include_directories(app PUBLIC ${sensor})
 target_include_directories(app PUBLIC ${actuator})
 target_include_directories(app PUBLIC ${agent})

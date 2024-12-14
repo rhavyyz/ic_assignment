@@ -12,7 +12,7 @@ class CollisionSensor : public Sensor
 
         percept sense(sensor_input * i)
         {
-            return {get_name(), prohibited_floors.count(i->floor)};
+            return {get_name(), prohibited_floors.count((Floor)i->floor)};
         }
 
 };
