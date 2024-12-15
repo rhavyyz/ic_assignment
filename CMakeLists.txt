@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.12)
-project(app)
+project(dummy)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED On)
 set(CMAKE_CXX_COMPILER g++)
@@ -33,16 +33,28 @@ set(logging
   ${PROJECT_SOURCE_DIR}/src/logging/
 )
 
-add_executable(app main.cpp 
+add_executable(dummy dummy.cpp 
+                    src/agent/agent.cpp                
+)
+add_executable(smart smart.cpp 
                     src/agent/agent.cpp                
 )
 
-target_include_directories(app PUBLIC ${floor_utils})
-target_include_directories(app PUBLIC ${logging})
-target_include_directories(app PUBLIC ${sensor})
-target_include_directories(app PUBLIC ${actuator})
-target_include_directories(app PUBLIC ${agent})
-target_include_directories(app PUBLIC ${environment})
+target_include_directories(smart PUBLIC ${floor_utils})
+target_include_directories(smart PUBLIC ${logging})
+target_include_directories(smart PUBLIC ${sensor})
+target_include_directories(smart PUBLIC ${actuator})
+target_include_directories(smart PUBLIC ${agent})
+target_include_directories(smart PUBLIC ${environment})
+
+
+target_include_directories(dummy PUBLIC ${floor_utils})
+target_include_directories(dummy PUBLIC ${logging})
+target_include_directories(dummy PUBLIC ${sensor})
+target_include_directories(dummy PUBLIC ${actuator})
+target_include_directories(dummy PUBLIC ${agent})
+target_include_directories(dummy PUBLIC ${environment})
+
 
 # target_link_libraries()
 

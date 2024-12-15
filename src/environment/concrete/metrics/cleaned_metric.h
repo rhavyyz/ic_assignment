@@ -47,4 +47,10 @@ class CleanedMetric : public Environment
             return res;
         }     
 
+
+        bool add_agent_randomly(Agent* agent)
+        {
+            return child->add_agent_randomly(agent);
+        }
+
 };

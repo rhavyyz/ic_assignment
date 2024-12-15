@@ -27,6 +27,7 @@ class Environment
         virtual void move_agent(std::string agent_name, point movement_vector)=0;
 
         virtual bool add_agent(Agent* agent, point position) = 0;
+        virtual bool add_agent_randomly(Agent* agent) = 0;
         
         virtual bool clean(std::string agent_name, point relative_position) = 0;        
 

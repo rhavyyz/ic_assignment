@@ -10,8 +10,12 @@
 #include "environment.h"
 
 #include <unistd.h>
+#include <fstream>
+#include <algorithm>
+#include <cstdlib>
 
 #include"logger.h"
+
 
 class ConcreteEnvironment : public Environment
 {
@@ -49,6 +53,41 @@ class ConcreteEnvironment : public Environment
             this->mat = mat;
             this->is_multiagent = is_multiagent;
         }
+
+        ConcreteEnvironment(std::string path, bool is_multiagent = false)
+        {
+            this->is_multiagent = is_multiagent;
+
+            std::ifstream file(path);
+
+            std::string s;
+
+            int max_size = 0;
+
+            while (getline(file, s))
+            {
+
+                std::vector<Floor> row;
+                for(auto el : s)
+                {
+                    if(el != '\n')
+                        row.push_back((Floor)(int)el);
+                }
+
+                mat.push_back(row);   
+            
+                max_size = std::max(max_size, (int)row.size());
+            }
+
+            for(auto & row : mat)
+            {
+                while(row.size() < max_size)
+                    row.push_back(Floor::empty);
+            }
+
+
+        }
+
         virtual ~ConcreteEnvironment()
         {
             for(auto [agent, info] : agents)
@@ -220,4 +259,12 @@ class ConcreteEnvironment : public Environment
             return cleaned;
         }
 
+        bool add_agent_randomly(Agent* agent)
+        {
+            int x = mat[0].size(), y = mat.size();
+
+            while(!add_agent(agent, {rand()%y, rand()%x})) {}
+
+            return true;
+        }
 };
