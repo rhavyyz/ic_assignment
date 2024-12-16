@@ -40,7 +40,7 @@ class DummyAgent : public Agent
                 return;
             }
 
-            srand(time(0)); 
+            // srand(time(0)); 
             int movement = rand() % 4;
 
             std::vector<point> moves = {
