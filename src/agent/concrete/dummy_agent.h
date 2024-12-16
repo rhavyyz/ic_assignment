@@ -31,8 +31,7 @@ class DummyAgent : public Agent
             if (perceptions.size() == 0)
                 return;
             
-
-            std::cout << ++qtd << std::endl;
+            Logger::save("reasons_qtd", std::to_string(++qtd));
 
             if(perceptions["dirt"].code == 1)
             {

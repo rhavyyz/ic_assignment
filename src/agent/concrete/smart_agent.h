@@ -13,6 +13,7 @@
 class SmartAgent : public Agent
 {
     private:
+        int qtd = 0;
 
         std::vector<point> movements = {
             {1, 0},
@@ -171,6 +172,8 @@ class SmartAgent : public Agent
         void reason(std::map<std::string, percept> perceptions)
         {
             print_model();
+
+            Logger::save("reasons_qtd", std::to_string(++qtd));
 
             int tzr = 0;
 
