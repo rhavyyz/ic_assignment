@@ -263,7 +263,16 @@ class ConcreteEnvironment : public Environment
         {
             int x = mat[0].size(), y = mat.size();
 
-            while(!add_agent(agent, {rand()%y, rand()%x})) {}
+            while(true) {
+                srand(time(0)); 
+                
+                int curr_Y = rand()%y;
+                srand(time(0)); 
+                int curr_X = rand()%x;
+            
+                if(add_agent(agent, {curr_Y, curr_X}))
+                    break;
+            }
 
             return true;
         }

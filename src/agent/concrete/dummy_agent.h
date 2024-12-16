@@ -35,7 +35,8 @@ class DummyAgent : public Agent
                 actuaors["clean"]->act(NULL);
                 return;
             }
-
+            
+            srand(time(0)); 
             int movement = rand() % 4;
 
             std::vector<point> moves = {
