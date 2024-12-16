@@ -5,6 +5,7 @@
 #include "concrete/cleaner_actuator.h"
 #include "concrete/movement_actuator.h"
 #include <cstdlib>
+#include "logger.h"
 
 class DummyAgent : public Agent
 {
