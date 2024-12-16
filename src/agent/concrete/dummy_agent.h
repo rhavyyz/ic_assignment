@@ -8,6 +8,8 @@
 
 class DummyAgent : public Agent
 {
+    private:
+        int qtd = 0;
     public:
         DummyAgent(Environment * env, std::string name) : Agent(env, name)
         {
@@ -28,14 +30,16 @@ class DummyAgent : public Agent
 
             if (perceptions.size() == 0)
                 return;
+            
 
+            std::cout << ++qtd << std::endl;
 
             if(perceptions["dirt"].code == 1)
             {
                 actuaors["clean"]->act(NULL);
                 return;
             }
-            
+
             srand(time(0)); 
             int movement = rand() % 4;
 
